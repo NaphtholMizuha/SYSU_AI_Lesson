@@ -1,0 +1,34 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{import} \PYG{n+nn}{queue}
+\PYG{k+kn}{from} \PYG{n+nn}{typing} \PYG{k+kn}{import} \PYG{n}{Tuple}
+
+\PYG{k+kn}{from} \PYG{n+nn}{disjoint\PYGZus{}set} \PYG{k+kn}{import} \PYG{o}{*}
+
+
+\PYG{k}{def} \PYG{n+nf}{dijkstra}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],} \PYG{n}{edges}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{]],} \PYG{n}{start}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{,} \PYG{n}{end}\PYG{p}{:} \PYG{n+nb}{str}\PYG{p}{)} \PYG{o}{\PYGZhy{}\PYGZgt{}} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{List}\PYG{p}{[}\PYG{n+nb}{str}\PYG{p}{],} \PYG{n+nb}{int}\PYG{p}{]:}
+    \PYG{n}{dist} \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{()}
+    \PYG{n}{dj} \PYG{o}{=} \PYG{n}{DisjointSet}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} get a disjoint set from the vertices}
+    \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{vertices}\PYG{p}{:}
+        \PYG{n}{dist}\PYG{p}{[}\PYG{n}{item}\PYG{p}{]} \PYG{o}{=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+
+    \PYG{n}{dist}\PYG{p}{[}\PYG{n}{start}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{n}{finished} \PYG{o}{=} \PYG{k+kc}{False}
+    \PYG{k}{while} \PYG{o+ow}{not} \PYG{n}{finished}\PYG{p}{:}
+        \PYG{n}{q} \PYG{o}{=} \PYG{n}{queue}\PYG{o}{.}\PYG{n}{PriorityQueue}\PYG{p}{()}
+        \PYG{k}{for} \PYG{n}{edge} \PYG{o+ow}{in} \PYG{n}{edges}\PYG{p}{:}
+            \PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{)} \PYG{o}{=} \PYG{n}{edge}  \PYG{c+c1}{\PYGZsh{} u and v are two ends of the edge and u is considered while v isn\PYGZsq{}t}
+            \PYG{k}{if} \PYG{n}{dj}\PYG{o}{.}\PYG{n}{is\PYGZus{}linked}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{u}\PYG{p}{)} \PYG{o+ow}{and} \PYG{o+ow}{not} \PYG{n}{dj}\PYG{o}{.}\PYG{n}{is\PYGZus{}linked}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n}{dist}\PYG{p}{[}\PYG{n}{v}\PYG{p}{]} \PYG{o}{==} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o+ow}{or} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{+} \PYG{n}{weight} \PYG{o}{\PYGZlt{}} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{v}\PYG{p}{]):}
+                \PYG{n}{q}\PYG{o}{.}\PYG{n}{put}\PYG{p}{((}\PYG{n}{weight}\PYG{p}{,} \PYG{n}{edge}\PYG{p}{))}
+
+        \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{q}\PYG{o}{.}\PYG{n}{empty}\PYG{p}{():}  \PYG{c+c1}{\PYGZsh{} get the shortest edge in considered edges}
+            \PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{)} \PYG{o}{=} \PYG{n}{q}\PYG{o}{.}\PYG{n}{get}\PYG{p}{()[}\PYG{l+m+mi}{1}\PYG{p}{]}
+            \PYG{n}{dist}\PYG{p}{[}\PYG{n}{v}\PYG{p}{]} \PYG{o}{=} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{u}\PYG{p}{]} \PYG{o}{+} \PYG{n}{weight}
+            \PYG{n}{dj}\PYG{o}{.}\PYG{n}{union}\PYG{p}{(}\PYG{n}{u}\PYG{p}{,} \PYG{n}{v}\PYG{p}{)}
+
+        \PYG{n}{finished} \PYG{o}{=} \PYG{k+kc}{True}
+
+        \PYG{k}{for} \PYG{n}{vertex} \PYG{o+ow}{in} \PYG{n}{vertices}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} test whether all vertices are visited}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{dj}\PYG{o}{.}\PYG{n}{is\PYGZus{}linked}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{vertex}\PYG{p}{):}
+                \PYG{n}{finished} \PYG{o}{=} \PYG{k+kc}{False}
+    \PYG{k}{return} \PYG{n}{dj}\PYG{o}{.}\PYG{n}{path}\PYG{p}{(}\PYG{n}{start}\PYG{p}{,} \PYG{n}{end}\PYG{p}{),} \PYG{n}{dist}\PYG{p}{[}\PYG{n}{end}\PYG{p}{]}
+\end{Verbatim}

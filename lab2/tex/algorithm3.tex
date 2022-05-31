@@ -1,0 +1,23 @@
+\begin{algorithm*}
+    \SetKwInOut{Input}{输入}
+    \SetKwInOut{Output}{输出}
+    \caption{最一般合一算法\code{find\_mgu()}}
+    \Input{两个谓词相同的文字\(w,v\)}
+    \Output{两个文字的最一般合一替换\(\sigma\)} 
+    \(\sigma := \varepsilon\) 空代换 \\
+    \ForAll{两个文字中对应的参数\(a,b\)}{
+        \If{\(a \ne b\)}{
+            \(t :=\) 其中的常量或变元 \\
+            \(x :=\) 其中不是\(t\)或不在\(t\)中出现的变元 \\
+            \If{\(t,x\)存在}{
+                \(\sigma := \sigma \circ \{t/x\}\)
+            }
+            \Else{
+                算法中止,MGU不存在.
+            }
+        }
+    }
+
+    \Return{\(\sigma\)}
+    
+\end{algorithm*}

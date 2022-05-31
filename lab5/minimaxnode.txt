@@ -1,0 +1,21 @@
+"""
+    def alpha_beta(self, state, alpha, beta, is_max, depth):
+        if depth >= self.max_depth:
+            return self.evaluate_class.evaluate(state), None
+
+        steps = generate_possbile_steps(state, 'b')
+        next_states = [make_nxt_state(state, src, dst) for src, dst in steps]
+
+        target = None
+        for i, chessboard in enumerate(next_states):
+            temp, _ = self.alpha_beta(chessboard, alpha, beta, not is_max, depth + 1)
+            if is_max and temp > alpha:
+                alpha = temp
+                target = steps[i]
+            elif not is_max and temp < beta:
+                beta = temp
+                target = steps[i]
+            if alpha >= beta:
+                break
+        return (alpha, target) if is_max else (beta, target)
+"""

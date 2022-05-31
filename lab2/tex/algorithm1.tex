@@ -1,0 +1,27 @@
+\begin{algorithm*}
+    \SetKwInOut{Input}{输入}
+    \SetKwInOut{Output}{输出}
+    \caption{支持集策略归结推理算法}
+    \Input{子句集\(S\),目标子句 \(\alpha\)}
+    \Output{\(S\)是否能归结出\(\alpha\)的布尔值\(b\)}
+    \For{\(s \in S\)}{
+        \(s\) 不在支持集中.
+    }
+    \(S := S \cup \{\neg\alpha\}\) \\
+    \While( // 无限循环){\true}{
+        $S_0 := \{\}$ \\
+        \For( // 遍历子句){\(x,y \in S\)}{
+            \If{\(x\) or \(y\) 在支持集中.}{
+                \(z :=\) \code{resolve}(\(x,y\)) \\
+                \If{\(z = ()\)}{
+                    \Return{\true}
+                }
+                \Else{
+                    \(z\) 在支持集中.\\
+                    \(S_0 := S_0 \cup \{z\}\)
+                }  
+            }
+        }
+        \(S := S \cup S_0\)\\
+    }
+\end{algorithm*}

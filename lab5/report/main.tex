@@ -1,0 +1,148 @@
+\input{pre}
+\geometry{a4paper}
+\title{Minimax算法在中国象棋的应用}
+\author{武自厚 20336014 保密管理}
+\date{\today}
+
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\true}[0]{\textbf{\emph{true}}}
+\newcommand{\false}[0]{\textbf{\emph{false}}}
+\newcommand{\img}[3]{\begin{figure}[H]
+    \centering
+    \includegraphics[width=#1\textwidth]{#2}
+\end{figure}}
+\newmintedfile{python}{breakanywhere,breaklines,linenos,frame=single}
+
+\begin{document}
+    \maketitle
+
+    \section{原理分析}
+
+    \subsection{Minimax算法}
+
+    Minimax算法,是一种应对博弈游戏(尤其是零和博弈)时考虑步骤所需要的博弈树搜索算法.
+    其基本原理为:每一个叶子结点都具有一个值,而奇数层Max(代表一名玩家的决策)结点的值是其
+    子结点的最大值;偶数层Mini(代表另一名玩家的决策)结点的值是其子结点的最小值.
+
+    算法步骤可以用自然语言归纳为如下几步.
+
+    \begin{enumerate}
+        \item 获取当前状态的行动列表.
+        \item 遍历行动列表,并获取下一步的权值(递归执行).
+        \item 选取最大(小)的权值返回.
+    \end{enumerate}
+
+    如此得出当前状态下一步状态的全部权值,选择其中具有最大权值的行动执行即可.
+
+    \subsection{\(\alpha-\beta\)剪枝}
+
+    Minimax算法虽然可行,但是它过大的时空复杂度限制了算法解决问题的规模.对此,一个
+    有效的优化就是引入\(\alpha-\beta\)剪枝.
+
+    此时,一个结点拥有的权值不再是一个,而是两个,它们称为\(\alpha\)和\(\beta\),
+    代表了这个结点的递归算法中出现过的最小值和最大值.如果某一时刻一个结点出现了
+    \(\alpha \ge \beta\)的情况,这就说明它最后采纳的子结点已经被遍历,不再需要
+    考虑之后的子结点(即``剪枝'').容易知道,Max结点的\(\alpha\)值就是其权值,
+    而Mini结点的\(\beta\)值就是其权值.
+
+    \subsection{深度受限与评估函数}
+
+    对于中国象棋而言,一昧向下搜索企图寻找到终止状态(即一方获胜)所造成的时空代价会非常高,
+    所以对于搜索的深度进行限制很有必要.但是到达最大深度时并不能直接获取状态的权值,
+    这时就需要评估函数来对最大深度结点进行启发式评估以获取权值.
+
+    目前已经提出了一些根据棋子位置、棋子个数、棋子灵活性和特殊局面进行棋局评估的函数\cite{徐心和2006中国象棋计算机博弈关键技术分析},
+    对此本文不再赘述.
+
+    \subsection{历史表启发(创新点)}
+    \(\alpha-\beta\)剪枝在一定程度上可以降低计算次数,但是其效果取决于行动的排序,
+    如果被采纳的行动是最后被遍历的,那么\(\alpha-\beta\)剪枝将不起作用. Jonathan在1989年
+    提出一种称为``历史表启发''的优化方式会启发式地调整算法遍历顺序\cite{schaeffer1989history},
+    让\(\alpha-\beta\)剪枝发挥最大的作用.
+
+    历史表记录了一个行动最优性的权值, 它的操作分为访问和更新两种.
+    访问操作用于获取行动的最优性权值, 而更新操作用于增加权值.
+    在获取行动列表时,算法将会根据各个行动在历史表中的权值进行排序.
+    在返回时,算法将会对造成最大(小)值的行动进行历史表更新.
+
+    \section{伪代码实现}
+
+    \subsection{\(\alpha-\beta\)剪枝的Minimax算法实现}
+
+    \begin{algorithm*}
+		\SetKwInOut{Input}{输入}
+		\SetKwInOut{Output}{输出}
+        \SetKw{Break}{break}
+		\caption{\texttt{alphabeta}(\(s,\alpha,\beta,\mathtt{depth}\))}
+		\Input{当前状态\(s\), 继承权值\(\alpha, \beta\)}
+		\Output{最大\(\alpha\)值}
+        
+        \If(){\(\mathtt{depth} \le 0\)}{
+            \Return{\(\mathtt{evaluate}(s)\)}
+        }
+
+        \(S := s\)的后继状态 \\
+        \For(){\(s' \in S\)}{
+            \(v := \mathtt{alphabeta}(s',-\beta, -\alpha, \mathtt{depth} - 1)\) \\
+            \If{\(v \ge \alpha\)}{
+                \(\alpha := v\)
+            }
+            \If(){\(\alpha \ge \beta\)}{
+                \Break
+            }
+        }
+
+        \Return{\(\alpha\)}
+    \end{algorithm*}
+    \subsection{具有历史表启发以及\(\alpha-\beta\)剪枝的Minimax算法实现}
+    \begin{algorithm*}
+		\SetKwInOut{Input}{输入}
+		\SetKwInOut{Output}{输出}
+        \SetKwInOut{Globl}{全局}
+        \SetKw{Break}{break}
+		\caption{\texttt{alphabeta}(\(s,\alpha,\beta,\mathtt{depth}\))}
+		\Input{当前状态\(s\), 继承权值\(\alpha, \beta\)}
+		\Output{最大\(\alpha\)值}
+        \Globl{历史启发表\texttt{history}}
+        
+        \If(){\(\mathtt{depth} \le 0\)}{
+            \Return{\(\mathtt{evaluate}(s)\)}
+        }
+
+        \(S := s\)的后继状态 \\
+
+        \(S.\mathtt{sort}()\) \tcp*{按照\(s \mapsto \mathtt{history}[s]\)排序}
+
+        \For(){\(s' \in S\)}{
+            \(v := \mathtt{alphabeta}(s',-\beta, -\alpha, \mathtt{depth} - 1)\) \\
+            \If{\(v \ge \alpha\)}{
+                \(\alpha := v\) \\
+                \(s^* := s'\) \tcp*{记录最优后继状态}
+            }
+            \If(){\(\alpha \ge \beta\)}{
+                \Break
+            }
+        }
+        \(\mathtt{history}[s^*] := \mathtt{history}[s^*] + 2^\mathtt{depth}\) \tcp*{更新历史表记录}
+        \Return{\(\alpha\)}
+    \end{algorithm*}
+    \section{关键代码}
+
+    \subsection{棋局评估函数}
+
+    \pythonfile{evaluate.py}
+
+    \subsection{具有历史表启发以及\(\alpha-\beta\)剪枝的Minimax函数}
+    
+    \pythonfile{ab.py}
+
+    \section{结果分析}
+
+    同目录的\texttt{result.mp4}文件展示了一个模拟棋局的效果.可以发现该算法具有一定
+    的智能,至少对于一个象棋菜鸟来说绰绰有余.
+
+    \section{总结}
+    
+    \bibliography{IEEEexample}
+
+\end{document}

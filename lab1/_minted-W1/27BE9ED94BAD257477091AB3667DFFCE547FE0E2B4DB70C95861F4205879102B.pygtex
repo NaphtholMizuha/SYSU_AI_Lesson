@@ -1,0 +1,70 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{dijkstra} \PYG{k+kn}{import} \PYG{n}{dijkstra}
+
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{edges} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{vertices} \PYG{o}{=} \PYG{p}{[]}
+    \PYG{n}{v\PYGZus{}dict} \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{()}
+    \PYG{n}{file} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Romania.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}r\PYGZdq{}}\PYG{p}{)}
+    \PYG{n}{v\PYGZus{}size}\PYG{p}{,} \PYG{n}{e\PYGZus{}size} \PYG{o}{=} \PYG{n}{file}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+    \PYG{n}{v\PYGZus{}size} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{v\PYGZus{}size}\PYG{p}{)}
+    \PYG{n}{e\PYGZus{}size} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{e\PYGZus{}size}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The size of vertices is }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ and one of edges is }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{v\PYGZus{}size}\PYG{p}{,} \PYG{n}{e\PYGZus{}size}\PYG{p}{))}
+
+    \PYG{c+c1}{\PYGZsh{} input a graph}
+    \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n}{e\PYGZus{}size}\PYG{p}{):}
+        \PYG{n}{start}\PYG{p}{,} \PYG{n}{end}\PYG{p}{,} \PYG{n}{weight} \PYG{o}{=} \PYG{n}{file}\PYG{o}{.}\PYG{n}{readline}\PYG{p}{()}\PYG{o}{.}\PYG{n}{split}\PYG{p}{()}
+
+        \PYG{c+c1}{\PYGZsh{} process for capital insensitivity}
+        \PYG{n}{start} \PYG{o}{=} \PYG{n}{start}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+        \PYG{n}{end} \PYG{o}{=} \PYG{n}{end}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+
+        \PYG{k}{if} \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{start}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{start}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{())}
+            \PYG{n}{v\PYGZus{}dict}\PYG{p}{[}\PYG{n}{start}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{start}  \PYG{c+c1}{\PYGZsh{} for searching by first letter}
+        \PYG{k}{if} \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{end}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{end}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{())}
+            \PYG{n}{v\PYGZus{}dict}\PYG{p}{[}\PYG{n}{end}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]]} \PYG{o}{=} \PYG{n}{end}  \PYG{c+c1}{\PYGZsh{} for searching by first letter}
+
+        \PYG{n}{weight} \PYG{o}{=} \PYG{n+nb}{int}\PYG{p}{(}\PYG{n}{weight}\PYG{p}{)}
+        \PYG{n}{edges}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{start}\PYG{p}{,} \PYG{n}{end}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{))}
+        \PYG{n}{edges}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{end}\PYG{p}{,} \PYG{n}{start}\PYG{p}{,} \PYG{n}{weight}\PYG{p}{))}  \PYG{c+c1}{\PYGZsh{} because all edges are undirected}
+
+    \PYG{n}{file}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+    \PYG{c+c1}{\PYGZsh{} it\PYGZsq{}s time for the user}
+    \PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+        \PYG{n}{st} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Please type your start city(type \PYGZsq{}quit\PYGZsq{} to quit self program): \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+        \PYG{k}{if} \PYG{n}{st} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}quit\PYGZsq{}}\PYG{p}{:}
+            \PYG{k}{break}
+        \PYG{k}{elif} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{st}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n}{st} \PYG{o}{=} \PYG{n}{v\PYGZus{}dict}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{st}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{st} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} error detect}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}There is no such city!!!! Type again please.\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{continue}
+        \PYG{k}{elif} \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{st}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} error detect}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}There is no such city!!!! Type again please.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{continue}
+
+        \PYG{n}{ed} \PYG{o}{=} \PYG{n+nb}{input}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}Please type your end city(type \PYGZsq{}quit\PYGZsq{} to quit self program): \PYGZdq{}}\PYG{p}{)}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{()}
+        \PYG{k}{if} \PYG{n}{ed} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}quit\PYGZsq{}}\PYG{p}{:}
+            \PYG{k}{break}
+        \PYG{k}{elif} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{ed}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n}{ed} \PYG{o}{=} \PYG{n}{v\PYGZus{}dict}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{ed}\PYG{p}{)}
+            \PYG{k}{if} \PYG{n}{ed} \PYG{o+ow}{is} \PYG{k+kc}{None}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} error detect}
+                \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}There is no such city!!!! Type again please.\PYGZdq{}}\PYG{p}{)}
+                \PYG{k}{continue}
+        \PYG{k}{elif} \PYG{n}{vertices}\PYG{o}{.}\PYG{n}{count}\PYG{p}{(}\PYG{n}{ed}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}  \PYG{c+c1}{\PYGZsh{} error detect}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}There is no such city!!!! Type again please.\PYGZdq{}}\PYG{p}{)}
+            \PYG{k}{continue}
+
+        \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}start is }\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s2}{ and end is }\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}\PYGZsq{}}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{st}\PYG{p}{,} \PYG{n}{ed}\PYG{p}{))}
+        \PYG{n}{path}\PYG{p}{,} \PYG{n}{length} \PYG{o}{=} \PYG{n}{dijkstra}\PYG{p}{(}\PYG{n}{vertices}\PYG{p}{,} \PYG{n}{edges}\PYG{p}{,} \PYG{n}{st}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{(),} \PYG{n}{ed}\PYG{o}{.}\PYG{n}{lower}\PYG{p}{())}
+        \PYG{n}{log} \PYG{o}{=} \PYG{n+nb}{open}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}log.txt\PYGZdq{}}\PYG{p}{,} \PYG{l+s+s2}{\PYGZdq{}a\PYGZdq{}}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{length} \PYG{o}{!=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}The shortest path is }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ and its length is }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{.\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{path}\PYG{p}{,} \PYG{n}{length}\PYG{p}{))}  \PYG{c+c1}{\PYGZsh{} put results}
+            \PYG{n}{log}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ to }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{path: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{length: }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{st}\PYG{p}{,} \PYG{n}{ed}\PYG{p}{,} \PYG{n}{path}\PYG{p}{,} \PYG{n}{length}\PYG{p}{))}  \PYG{c+c1}{\PYGZsh{} logging}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}These two vertices are not connected.\PYGZdq{}}\PYG{p}{)}  \PYG{c+c1}{\PYGZsh{} put results}
+            \PYG{n}{log}\PYG{o}{.}\PYG{n}{write}\PYG{p}{(}\PYG{l+s+s2}{\PYGZdq{}}\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+s2}{ to }\PYG{l+s+si}{\PYGZob{}\PYGZcb{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s2}{failed}\PYG{l+s+se}{\PYGZbs{}n\PYGZbs{}n}\PYG{l+s+s2}{\PYGZdq{}}\PYG{o}{.}\PYG{n}{format}\PYG{p}{(}\PYG{n}{st}\PYG{p}{,} \PYG{n}{ed}\PYG{p}{))}  \PYG{c+c1}{\PYGZsh{} logging}
+        \PYG{n}{log}\PYG{o}{.}\PYG{n}{close}\PYG{p}{()}
+\end{Verbatim}

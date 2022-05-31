@@ -1,0 +1,130 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{class} \PYG{n+nc}{Evaluate}\PYG{p}{(}\PYG{n+nb}{object}\PYG{p}{):}
+    \PYG{c+c1}{\PYGZsh{} 棋子棋力得分}
+    \PYG{n}{single\PYGZus{}chess\PYGZus{}point} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s1}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{989}\PYG{p}{,}   \PYG{c+c1}{\PYGZsh{} 车}
+        \PYG{l+s+s1}{\PYGZsq{}m\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{439}\PYG{p}{,}   \PYG{c+c1}{\PYGZsh{} 马}
+        \PYG{l+s+s1}{\PYGZsq{}p\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{442}\PYG{p}{,}   \PYG{c+c1}{\PYGZsh{} 炮}
+        \PYG{l+s+s1}{\PYGZsq{}s\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{226}\PYG{p}{,}   \PYG{c+c1}{\PYGZsh{} 士}
+        \PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{210}\PYG{p}{,}   \PYG{c+c1}{\PYGZsh{} 象}
+        \PYG{l+s+s1}{\PYGZsq{}z\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{55}\PYG{p}{,}    \PYG{c+c1}{\PYGZsh{} 卒}
+        \PYG{l+s+s1}{\PYGZsq{}j\PYGZsq{}}\PYG{p}{:} \PYG{l+m+mi}{65536}  \PYG{c+c1}{\PYGZsh{} 将}
+    \PYG{p}{\PYGZcb{}}
+    \PYG{c+c1}{\PYGZsh{} 红兵（卒）位置得分}
+    \PYG{n}{red\PYGZus{}bin\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{12}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{9}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{18}\PYG{p}{,} \PYG{l+m+mi}{36}\PYG{p}{,} \PYG{l+m+mi}{56}\PYG{p}{,} \PYG{l+m+mi}{95}\PYG{p}{,} \PYG{l+m+mi}{118}\PYG{p}{,} \PYG{l+m+mi}{95}\PYG{p}{,} \PYG{l+m+mi}{56}\PYG{p}{,} \PYG{l+m+mi}{36}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{15}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{,} \PYG{l+m+mi}{73}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{73}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{,} \PYG{l+m+mi}{28}\PYG{p}{,} \PYG{l+m+mi}{15}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{13}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{,} \PYG{l+m+mi}{52}\PYG{p}{,} \PYG{l+m+mi}{42}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{22}\PYG{p}{,} \PYG{l+m+mi}{13}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{17}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{,} \PYG{l+m+mi}{26}\PYG{p}{,} \PYG{l+m+mi}{21}\PYG{p}{,} \PYG{l+m+mi}{18}\PYG{p}{,} \PYG{l+m+mi}{17}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{8}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{7}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{],}
+        \PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{3}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} 红车位置得分}
+    \PYG{n}{red\PYGZus{}che\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{195}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{210}\PYG{p}{,} \PYG{l+m+mi}{220}\PYG{p}{,} \PYG{l+m+mi}{210}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{195}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{203}\PYG{p}{,} \PYG{l+m+mi}{198}\PYG{p}{,} \PYG{l+m+mi}{230}\PYG{p}{,} \PYG{l+m+mi}{245}\PYG{p}{,} \PYG{l+m+mi}{230}\PYG{p}{,} \PYG{l+m+mi}{198}\PYG{p}{,} \PYG{l+m+mi}{203}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{198}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{225}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{198}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{195}\PYG{p}{,} \PYG{l+m+mi}{220}\PYG{p}{,} \PYG{l+m+mi}{230}\PYG{p}{,} \PYG{l+m+mi}{220}\PYG{p}{,} \PYG{l+m+mi}{195}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{205}\PYG{p}{,} \PYG{l+m+mi}{225}\PYG{p}{,} \PYG{l+m+mi}{205}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{155}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{172}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{215}\PYG{p}{,} \PYG{l+m+mi}{172}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{155}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{110}\PYG{p}{,} \PYG{l+m+mi}{148}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{185}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{148}\PYG{p}{,} \PYG{l+m+mi}{110}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{140}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{140}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{110}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{95}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{155}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{155}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{95}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{140}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{]}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} 红马位置得分}
+    \PYG{n}{red\PYGZus{}ma\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{115}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{145}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{175}\PYG{p}{,} \PYG{l+m+mi}{145}\PYG{p}{,} \PYG{l+m+mi}{175}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{175}\PYG{p}{,} \PYG{l+m+mi}{145}\PYG{p}{,} \PYG{l+m+mi}{175}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{145}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{145}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{125}\PYG{p}{,} \PYG{l+m+mi}{135}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{110}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{45}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{105}\PYG{p}{,} \PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{45}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{]}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} 红炮位置得分}
+    \PYG{n}{red\PYGZus{}pao\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{,} \PYG{l+m+mi}{180}\PYG{p}{,} \PYG{l+m+mi}{190}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{150}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{210}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{220}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{50}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{230}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{200}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{,} \PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{30}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{10}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{,} \PYG{l+m+mi}{20}\PYG{p}{]}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} 红将位置得分}
+    \PYG{n}{red\PYGZus{}jiang\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{9750}\PYG{p}{,} \PYG{l+m+mi}{9800}\PYG{p}{,} \PYG{l+m+mi}{9750}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{9900}\PYG{p}{,} \PYG{l+m+mi}{9900}\PYG{p}{,} \PYG{l+m+mi}{9900}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{10000}\PYG{p}{,} \PYG{l+m+mi}{10000}\PYG{p}{,} \PYG{l+m+mi}{10000}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+    \PYG{p}{]}
+    \PYG{c+c1}{\PYGZsh{} 红相或士位置得分}
+    \PYG{n}{red\PYGZus{}xiang\PYGZus{}shi\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{[}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{60}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{90}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{80}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{120}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+        \PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{100}\PYG{p}{,} \PYG{l+m+mi}{70}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{,} \PYG{l+m+mi}{0}\PYG{p}{],}
+    \PYG{p}{]}
+
+    \PYG{n}{red\PYGZus{}pos\PYGZus{}point} \PYG{o}{=} \PYG{p}{\PYGZob{}}
+        \PYG{l+s+s1}{\PYGZsq{}z\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}bin\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}m\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}ma\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}c\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}che\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}j\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}jiang\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}p\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}pao\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}x\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}xiang\PYGZus{}shi\PYGZus{}pos\PYGZus{}point}\PYG{p}{,}
+        \PYG{l+s+s1}{\PYGZsq{}s\PYGZsq{}}\PYG{p}{:} \PYG{n}{red\PYGZus{}xiang\PYGZus{}shi\PYGZus{}pos\PYGZus{}point}
+    \PYG{p}{\PYGZcb{}}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{team}\PYG{p}{):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{team} \PYG{o}{=} \PYG{n}{team}
+
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}single\PYGZus{}chess\PYGZus{}point}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{chessmap}\PYG{p}{,} \PYG{n}{src}\PYG{p}{):}
+        \PYG{n}{chess} \PYG{o}{=} \PYG{n}{chessmap}\PYG{p}{[}\PYG{n}{src}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]][}\PYG{n}{src}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+        \PYG{k}{if} \PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{team}\PYG{p}{:}
+            \PYG{k}{return} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{single\PYGZus{}chess\PYGZus{}point}\PYG{p}{[}\PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{k}{return} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1} \PYG{o}{*} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{single\PYGZus{}chess\PYGZus{}point}\PYG{p}{[}\PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}chess\PYGZus{}pos\PYGZus{}point}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{chessmap}\PYG{p}{,} \PYG{n}{src}\PYG{p}{):}
+        \PYG{n}{row}\PYG{p}{,} \PYG{n}{col} \PYG{o}{=} \PYG{n}{src}
+        \PYG{n}{chess} \PYG{o}{=} \PYG{n}{chessmap}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+        \PYG{n}{red\PYGZus{}pos\PYGZus{}point\PYGZus{}table} \PYG{o}{=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{red\PYGZus{}pos\PYGZus{}point}\PYG{p}{[}\PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]]}
+        \PYG{k}{if} \PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}}\PYG{p}{:}
+            \PYG{n}{pos\PYGZus{}point} \PYG{o}{=} \PYG{n}{red\PYGZus{}pos\PYGZus{}point\PYGZus{}table}\PYG{p}{[}\PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{pos\PYGZus{}point} \PYG{o}{=} \PYG{n}{red\PYGZus{}pos\PYGZus{}point\PYGZus{}table}\PYG{p}{[}\PYG{l+m+mi}{9} \PYG{o}{\PYGZhy{}} \PYG{n}{row}\PYG{p}{][}\PYG{n}{col}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{chess}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{team}\PYG{p}{:}
+            \PYG{n}{pos\PYGZus{}point} \PYG{o}{*=} \PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}
+        \PYG{k}{return} \PYG{n}{pos\PYGZus{}point}
+
+    \PYG{k}{def} \PYG{n+nf}{evaluate}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{chessmap}\PYG{p}{):}
+        \PYG{n}{point} \PYG{o}{=} \PYG{l+m+mi}{0}
+        \PYG{k}{for} \PYG{n}{chess} \PYG{o+ow}{in} \PYG{n}{fetch\PYGZus{}any\PYGZus{}chess}\PYG{p}{(}\PYG{n}{chessmap}\PYG{p}{):}
+            \PYG{n}{point} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}single\PYGZus{}chess\PYGZus{}point}\PYG{p}{(}\PYG{n}{chessmap}\PYG{p}{,} \PYG{n}{chess}\PYG{p}{)}
+            \PYG{n}{point} \PYG{o}{+=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}chess\PYGZus{}pos\PYGZus{}point}\PYG{p}{(}\PYG{n}{chessmap}\PYG{p}{,} \PYG{n}{chess}\PYG{p}{)}
+        \PYG{k}{return} \PYG{n}{point}
+\end{Verbatim}

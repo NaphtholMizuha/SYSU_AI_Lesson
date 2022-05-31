@@ -1,0 +1,99 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{literal} \PYG{k+kn}{import} \PYG{o}{*}
+\PYG{k+kn}{import} \PYG{n+nn}{copy}
+
+
+\PYG{k}{def} \PYG{n+nf}{replace}\PYG{p}{(}\PYG{n}{literal}\PYG{p}{:} \PYG{n}{Literal}\PYG{p}{,} \PYG{n}{mgu}\PYG{p}{):}
+    \PYG{n}{new\PYGZus{}args} \PYG{o}{=} \PYG{p}{[}\PYG{n}{mgu}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{arg}\PYG{p}{,} \PYG{n}{arg}\PYG{p}{)} \PYG{k}{for} \PYG{n}{arg} \PYG{o+ow}{in} \PYG{n}{literal}\PYG{o}{.}\PYG{n}{args}\PYG{p}{]}
+    \PYG{k}{return} \PYG{n}{Literal}\PYG{p}{(}\PYG{n}{name}\PYG{o}{=}\PYG{n}{literal}\PYG{o}{.}\PYG{n}{name}\PYG{p}{,} \PYG{n}{neg}\PYG{o}{=}\PYG{n}{literal}\PYG{o}{.}\PYG{n}{neg}\PYG{p}{,} \PYG{n}{args}\PYG{o}{=}\PYG{n}{new\PYGZus{}args}\PYG{p}{)}
+
+
+\PYG{k}{def} \PYG{n+nf}{include}\PYG{p}{(}\PYG{n}{li}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{,} \PYG{n}{Literal}\PYG{p}{]],} \PYG{n}{x}\PYG{p}{:} \PYG{n}{Literal}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{li}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{==} \PYG{n}{x} \PYG{o+ow}{or} \PYG{n}{item}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]} \PYG{o}{==} \PYG{n}{x}\PYG{p}{:}
+            \PYG{k}{return} \PYG{k+kc}{True}
+    \PYG{k}{return} \PYG{k+kc}{False}
+
+\PYG{k}{def} \PYG{n+nf}{is\PYGZus{}in}\PYG{p}{(}\PYG{n}{li}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{],} \PYG{n}{x}\PYG{p}{:} \PYG{n}{Literal}\PYG{p}{):}
+    \PYG{k}{for} \PYG{n}{literal} \PYG{o+ow}{in} \PYG{n}{li}\PYG{p}{:}
+        \PYG{k}{if} \PYG{n}{x}\PYG{o}{.}\PYG{n}{same}\PYG{p}{(}\PYG{n}{literal}\PYG{p}{):}
+            \PYG{k}{return} \PYG{k+kc}{True}
+    \PYG{k}{return} \PYG{k+kc}{False}
+
+
+\PYG{k}{def} \PYG{n+nf}{find\PYGZus{}mgu}\PYG{p}{(}\PYG{n}{li}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{,} \PYG{n}{Literal}\PYG{p}{]]):}
+    \PYG{n}{mgu} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+    \PYG{k}{for} \PYG{n}{this}\PYG{p}{,} \PYG{n}{that} \PYG{o+ow}{in} \PYG{n}{li}\PYG{p}{:}
+        \PYG{k}{for} \PYG{n}{this\PYGZus{}arg}\PYG{p}{,} \PYG{n}{that\PYGZus{}arg} \PYG{o+ow}{in} \PYG{n+nb}{zip}\PYG{p}{(}\PYG{n}{this}\PYG{o}{.}\PYG{n}{args}\PYG{p}{,} \PYG{n}{that}\PYG{o}{.}\PYG{n}{args}\PYG{p}{):}
+            \PYG{k}{if} \PYG{n}{is\PYGZus{}variable}\PYG{p}{(}\PYG{n}{this\PYGZus{}arg}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{mgu}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{that\PYGZus{}arg}\PYG{p}{,} \PYG{n}{that\PYGZus{}arg}\PYG{p}{)} \PYG{o}{!=} \PYG{n}{this\PYGZus{}arg}\PYG{p}{:}
+                \PYG{n}{mgu}\PYG{p}{[}\PYG{n}{this\PYGZus{}arg}\PYG{p}{]} \PYG{o}{=} \PYG{n}{that\PYGZus{}arg}
+            \PYG{k}{elif} \PYG{n}{is\PYGZus{}variable}\PYG{p}{(}\PYG{n}{that\PYGZus{}arg}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{mgu}\PYG{o}{.}\PYG{n}{get}\PYG{p}{(}\PYG{n}{this\PYGZus{}arg}\PYG{p}{,} \PYG{n}{this\PYGZus{}arg}\PYG{p}{)} \PYG{o}{!=} \PYG{n}{that\PYGZus{}arg}\PYG{p}{:}
+                \PYG{n}{mgu}\PYG{p}{[}\PYG{n}{that\PYGZus{}arg}\PYG{p}{]} \PYG{o}{=} \PYG{n}{this\PYGZus{}arg}
+    \PYG{k}{return} \PYG{n}{mgu}
+
+
+\PYG{k}{class} \PYG{n+nc}{Clause}\PYG{p}{:}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{literals}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{]):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals} \PYG{o}{=} \PYG{n}{literals}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{result} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}(\PYGZsq{}}
+            \PYG{k}{for} \PYG{n}{literal} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{:}
+                \PYG{n}{result} \PYG{o}{+=} \PYG{n}{literal}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{()}
+                \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1} \PYG{o+ow}{and} \PYG{n}{literal} \PYG{o}{!=} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]:}
+                    \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}
+            \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{1}\PYG{p}{:}
+                \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{})\PYGZsq{}}
+        \PYG{k}{else}\PYG{p}{:}
+            \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}NIL\PYGZsq{}}
+        \PYG{k}{return} \PYG{n}{result}
+
+    \PYG{k}{def} \PYG{n+nf}{is\PYGZus{}resolvable\PYGZus{}at}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{other}\PYG{p}{):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        To test whether the two clauses can be resolved together}
+\PYG{l+s+sd}{        :param other: another clause}
+\PYG{l+s+sd}{        :return: a boolean value}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{result} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{this} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{that} \PYG{o+ow}{in} \PYG{n}{other}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{this}\PYG{o}{.}\PYG{n}{is\PYGZus{}unifiable\PYGZus{}with}\PYG{p}{(}\PYG{n}{that}\PYG{p}{)} \PYG{o+ow}{and} \PYG{n}{result}\PYG{o}{.}\PYG{n}{count}\PYG{p}{((}\PYG{n}{that}\PYG{p}{,} \PYG{n}{this}\PYG{p}{))} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                    \PYG{n}{result}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{this}\PYG{p}{,} \PYG{n}{that}\PYG{p}{))}
+        \PYG{k}{return} \PYG{n}{result}
+
+    \PYG{k}{def} \PYG{n+nf}{resolve}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{other}\PYG{p}{,} \PYG{n}{unify\PYGZus{}literals}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{,} \PYG{n}{Literal}\PYG{p}{]]):}
+        \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{        Main process of resolution reasoning}
+\PYG{l+s+sd}{        :param unify\PYGZus{}literals: Literal pairs found by function \PYGZsq{}is\PYGZus{}resolvable\PYGZus{}at()\PYGZsq{}}
+\PYG{l+s+sd}{        :param other: another clause}
+\PYG{l+s+sd}{        :return: 1.new clause spanned by resolution, 2.MGU, 3.Coordinates of unified literals}
+\PYG{l+s+sd}{        \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+        \PYG{n}{new\PYGZus{}literals} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{n}{deduplicated\PYGZus{}literals} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{literal} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{:}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{include}\PYG{p}{(}\PYG{n}{unify\PYGZus{}literals}\PYG{p}{,} \PYG{n}{literal}\PYG{p}{):}
+                \PYG{n}{new\PYGZus{}literals}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{copy}\PYG{o}{.}\PYG{n}{deepcopy}\PYG{p}{(}\PYG{n}{literal}\PYG{p}{))}
+
+        \PYG{k}{for} \PYG{n}{literal} \PYG{o+ow}{in} \PYG{n}{other}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{:}
+            \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{include}\PYG{p}{(}\PYG{n}{unify\PYGZus{}literals}\PYG{p}{,} \PYG{n}{literal}\PYG{p}{):}
+                \PYG{n}{new\PYGZus{}literals}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{copy}\PYG{o}{.}\PYG{n}{deepcopy}\PYG{p}{(}\PYG{n}{literal}\PYG{p}{))}
+
+        \PYG{n}{mgu} \PYG{o}{=} \PYG{n}{find\PYGZus{}mgu}\PYG{p}{(}\PYG{n}{unify\PYGZus{}literals}\PYG{p}{)}
+        \PYG{c+c1}{\PYGZsh{} replace the variables, following MGU.}
+        \PYG{k}{for} \PYG{n}{i} \PYG{o+ow}{in} \PYG{n+nb}{range}\PYG{p}{(}\PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{new\PYGZus{}literals}\PYG{p}{)):}
+            \PYG{n}{new\PYGZus{}literals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]} \PYG{o}{=} \PYG{n}{replace}\PYG{p}{(}\PYG{n}{new\PYGZus{}literals}\PYG{p}{[}\PYG{n}{i}\PYG{p}{],} \PYG{n}{mgu}\PYG{p}{)}
+
+        \PYG{c+c1}{\PYGZsh{} filter out the duplicated literals.}
+        \PYG{k}{for} \PYG{n}{item} \PYG{o+ow}{in} \PYG{n}{new\PYGZus{}literals}\PYG{p}{:}
+            \PYG{k}{for} \PYG{n}{jtem} \PYG{o+ow}{in} \PYG{n}{deduplicated\PYGZus{}literals}\PYG{p}{:}
+                \PYG{k}{if} \PYG{n}{item}\PYG{o}{.}\PYG{n}{same}\PYG{p}{(}\PYG{n}{jtem}\PYG{p}{):}
+                    \PYG{k}{break}
+            \PYG{k}{else}\PYG{p}{:}
+                \PYG{n}{deduplicated\PYGZus{}literals}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{item}\PYG{p}{)}
+
+        \PYG{k}{return} \PYG{n}{Clause}\PYG{p}{(}\PYG{n}{deduplicated\PYGZus{}literals}\PYG{p}{),} \PYG{n}{mgu}
+\end{Verbatim}

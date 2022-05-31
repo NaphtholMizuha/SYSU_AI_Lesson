@@ -1,0 +1,172 @@
+\input{pre}
+\geometry{a4paper}
+\title{\textbf{归结推理算法实验报告}}
+\author{武自厚 20336014 保密管理}
+\date{\today}
+
+\newcommand{\diff}{\mathrm{d}}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\true}[0]{\textbf{\textit{true}}}
+\newcommand{\false}[0]{\textbf{\textit{false}}}
+\newcommand{\inputpy}[3]{\inputminted[firstline=#1,lastline=#2,breaklines,frame=single]{python3}{#3}}
+\newcommand{\img}[3]{\begin{figure}[H]
+    \centering
+    \includegraphics[width=#1\textwidth]{#2}
+    \caption{#3}
+\end{figure}}
+
+\begin{document}
+
+    \maketitle
+
+    \section{实验目的}
+
+    根据Robinson归结推理的原理设计归结算法以实现自动推理.
+
+    \section{算法原理}
+
+    \subsection{策略}
+    本算法基于归结推理的``支持集策略"简化推理过程.``支持集策略",即仅有目标子句取反后新加入的子句\(\alpha\)及其后代才能参与归结的策略.
+    
+    \subsection{自然语言描述}
+    \subsubsection{归结算法}
+    对于给定前提集\(F\)以及命题\(R\),将\(F\)转化为子句集\(S_0\),\(\neg R\)转化为子句\(\alpha\)并添加到子句集中,即
+    \[S := S_0 \cup \{\alpha\}\]
+    反复对\(S\)使用\textbf{单步归结算法},且选择的两个子句的规则满足支持集策略.
+    \begin{itemize}
+        \item 如果得到空子句(),则意味着\(S \vdash () \),也就是说\(F \models R\).算法退出.
+        \item 如果算法无法得到空子句,则意味着\(F \not \models R\).
+    \end{itemize}
+    \subsubsection{单步归结算法}
+    对于两个子句,使用\textbf{最一般合一算法}得到名称相同的原子及其否定.然后删去它们,再将两个子句合为一个新的子句,添加到子句集\(S\)中.
+    \subsubsection{最一般合一算法}
+    对于两个谓词相同,``\(\neg\)''不同,而参数不全都相同的文字.
+    如果两个文字不相同,则寻找它们之间的一个差异项,并将其中的一个变量替换为常量(如果没有则是另一个变量),替换加入最一般合一中.循环往复直到两个文字的所有参数相同.
+    最后返回替换的集合作为最一般合一.
+    \section{伪代码实现}
+    \subsection{主算法}
+    \include*{algorithm1}
+    \clearpage
+    \subsection{单步归结算法}
+    \include*{algorithm2}
+    \subsection{最一般合一算法}
+    \include*{algorithm3}
+
+    \section{关键代码展示}
+    \subsection{支持集算法}
+    \inputpy{57}{80}{../clause_set.py}
+    同一代产生的子句应当是``同时''且``并发''生成的,不能将先生成的子句直接加入子句集.这里
+    引入了一个列表作为缓冲\code{buffer},将新的子句先装入\code{buffer},等待通过原子句集能够归结出的所有子句生成后
+    再将\code{buffer}中的子句一起并入子句集.
+
+    \subsection{单步归结算法}
+    \inputpy{74}{91}{../clause.py}
+    由于使用了Python中的列表,可能产生重复元素,需要在最后加入对重复元素的过滤.
+
+    \subsection{最一般合一算法}
+    \inputpy{23}{31}{../clause.py}
+    由于要求中并未出现函数,所以不需要分析变量是否在常量中出现,直接判定是否是变量即可.合一替换以键值对数据结构表示.
+    \section{实验结果及分析}
+    \subsection{测试样例}
+    采用``登山俱乐部''问题为测试样例.具体为:
+    \begin{align*}
+        K = \{& \\
+        &A(\code{tony}), \\
+        &A(\code{mike}), \\
+        &A(\code{john}), \\
+        &L(\code{tony}, \code{rain}), \\
+        &L(\code{tony}, \code{snow}),\\
+        &(¬A(x), S(x), C(x)),\\
+        &(¬C(y), ¬L(y, \code{rain})),\\
+        &(L(z, \code{snow}), ¬S(z)),\\
+        &(¬L(\code{tony}, u), ¬L(\code{mike}, u)),\\
+        &(L(\code{tony}, v), L(\code{mike}, v)),\\
+        &(¬A(w), ¬C(w), S(w)),\\
+        \}& 
+    \end{align*}
+    其中最后一个子句即是目标子句的否定\(\neg \alpha\).
+    \subsection{实验结果}
+    输出结果如下:
+    \begin{minted}[frame=single]{text}
+    1.A(tony)
+    2.A(mike)
+    3.A(john)
+    4.L(tony, rain)
+    5.L(tony, snow)
+    6.(¬A(x), S(x), C(x))
+    7.(¬C(y), ¬L(y, rain))
+    8.(L(z, snow), ¬S(z))
+    9.(¬L(tony, u), ¬L(mike, u))
+    10.(L(tony, v), L(mike, v))
+    11.(¬A(w), ¬C(w), S(w))
+    12. R[1a-11a]{w:=tony} = (¬C(tony), S(tony))
+    13. R[2a-11a]{w:=mike} = (¬C(mike), S(mike))
+    14. R[3a-11a]{w:=john} = (¬C(john), S(john))
+    15. R[6c-11b]{x:=w} = (¬A(w), S(w))
+    16. R[8b-11c]{z:=w} = (L(w, snow), ¬A(w), ¬C(w))
+    17. R[1a-15a]{w:=tony} = S(tony)
+    18. R[1a-16b]{w:=tony} = (L(tony, snow), ¬C(tony))
+    19. R[2a-15a]{w:=mike} = S(mike)
+    20. R[2a-16b]{w:=mike} = (L(mike, snow), ¬C(mike))
+    21. R[3a-15a]{w:=john} = S(john)
+    22. R[3a-16b]{w:=john} = (L(john, snow), ¬C(john))
+    23. R[6c-12a]{x:=tony} = (¬A(tony), S(tony))
+    24. R[6c-13a]{x:=mike} = (¬A(mike), S(mike))
+    25. R[6c-14a]{x:=john} = (¬A(john), S(john))
+    26. R[6c-16c]{x:=w} = (¬A(w), S(w), L(w, snow))
+    27. R[8b-12b]{z:=tony} = (L(tony, snow), ¬C(tony))
+    28. R[8b-13b]{z:=mike} = (L(mike, snow), ¬C(mike))
+    29. R[8b-14b]{z:=john} = (L(john, snow), ¬C(john))
+    30. R[8b-15b]{z:=w} = (L(w, snow), ¬A(w))
+    31. R[9a-16a, 9b-16a]{w:=mike, u:=snow} = (¬A(mike), ¬C(mike))
+    32. R[1a-23a] = S(tony)
+    33. R[1a-26a]{w:=tony} = (S(tony), L(tony, snow))
+    34. R[1a-30b]{w:=tony} = L(tony, snow)
+    35. R[2a-24a] = S(mike)
+    36. R[2a-26a]{w:=mike} = (S(mike), L(mike, snow))
+    37. R[2a-30b]{w:=mike} = L(mike, snow)
+    38. R[2a-31a] = ¬C(mike)
+    39. R[3a-25a] = S(john)
+    40. R[3a-26a]{w:=john} = (S(john), L(john, snow))
+    41. R[3a-30b]{w:=john} = L(john, snow)
+    42. R[6c-18b]{x:=tony} = (¬A(tony), S(tony), L(tony, snow))
+    43. R[6c-20b]{x:=mike} = (¬A(mike), S(mike), L(mike, snow))
+    44. R[6c-22b]{x:=john} = (¬A(john), S(john), L(john, snow))
+    45. R[6c-27b]{x:=tony} = (¬A(tony), S(tony), L(tony, snow))
+    46. R[6c-28b]{x:=mike} = (¬A(mike), S(mike), L(mike, snow))
+    47. R[6c-29b]{x:=john} = (¬A(john), S(john), L(john, snow))
+    48. R[6c-31b]{x:=mike} = (¬A(mike), S(mike))
+    49. R[8b-17a]{z:=tony} = L(tony, snow)
+    50. R[8b-19a]{z:=mike} = L(mike, snow)
+    51. R[8b-21a]{z:=john} = L(john, snow)
+    52. R[8b-23b]{z:=tony} = (L(tony, snow), ¬A(tony))
+    53. R[8b-24b]{z:=mike} = (L(mike, snow), ¬A(mike))
+    54. R[8b-25b]{z:=john} = (L(john, snow), ¬A(john))
+    55. R[8b-26b]{z:=w} = (L(w, snow), ¬A(w))
+    56. R[9a-18a]{u:=snow} = (¬L(mike, snow), ¬C(tony))
+    57. R[9b-20a]{u:=snow} = (¬L(tony, snow), ¬C(mike))
+    58. R[9a-26c, 9b-26c]{w:=mike, u:=snow} = (¬A(mike), S(mike))
+    59. R[9a-27a]{u:=snow} = (¬L(mike, snow), ¬C(tony))
+    60. R[9b-28a]{u:=snow} = (¬L(tony, snow), ¬C(mike))
+    61. R[9a-30a, 9b-30a]{w:=mike, u:=snow} = ¬A(mike)
+    62. R[1a-42a] = (S(tony), L(tony, snow))
+    63. R[1a-45a] = (S(tony), L(tony, snow))
+    64. R[1a-52b] = L(tony, snow)
+    65. R[1a-55b]{w:=tony} = L(tony, snow)
+    66. R[2a-43a] = (S(mike), L(mike, snow))
+    67. R[2a-46a] = (S(mike), L(mike, snow))
+    68. R[2a-48a] = S(mike)
+    69. R[2a-53b] = L(mike, snow)
+    70. R[2a-55b]{w:=mike} = L(mike, snow)
+    71. R[2a-58a] = S(mike)
+    72. R[2a-61a] = NIL
+    \end{minted}
+    截图如下:
+    \img{1}{img/cut}{结果展示}
+    \subsection{实验分析}
+    该实验结果符合预期,运行过程正常,实验正常完成.
+
+    不过就结果展示而言,输出了很多没有用到的子句.若要改进,可以记录最终空子句所有前驱子句,并且只展示这些子句
+    以达到简化输出,使逻辑链条更为清晰,便于用户理解.
+
+\end{document}

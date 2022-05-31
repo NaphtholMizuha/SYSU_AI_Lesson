@@ -1,0 +1,82 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k+kn}{from} \PYG{n+nn}{clause} \PYG{k+kn}{import} \PYG{o}{*}
+
+\PYG{k}{def} \PYG{n+nf}{place\PYGZus{}to\PYGZus{}str}\PYG{p}{(}\PYG{n}{place}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{],} \PYG{n}{Tuple}\PYG{p}{[}\PYG{n+nb}{int}\PYG{p}{,} \PYG{n+nb}{int}\PYG{p}{]]]):}
+    \PYG{l+s+sd}{\PYGZdq{}\PYGZdq{}\PYGZdq{}}
+\PYG{l+s+sd}{    To turn place vector into string.}
+\PYG{l+s+sd}{    :param place: A List of 2*(2*2) tensor.}
+\PYG{l+s+sd}{    :return: String like \PYGZsq{}1a\PYGZhy{}7b, 12a,42z\PYGZsq{}}
+\PYG{l+s+sd}{    \PYGZdq{}\PYGZdq{}\PYGZdq{}}
+    \PYG{n}{result} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{place}\PYG{p}{)} \PYG{o}{\PYGZgt{}} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}[\PYGZsq{}}
+        \PYG{k}{for} \PYG{n}{pairs} \PYG{o+ow}{in} \PYG{n}{place}\PYG{p}{:}
+            \PYG{n}{result} \PYG{o}{+=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{pairs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{chr}\PYG{p}{(}\PYG{n+nb}{ord}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{)} \PYG{o}{+} \PYG{n}{pairs}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}\PYGZhy{}\PYGZsq{}} \PYG{o}{+} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{pairs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{0}\PYG{p}{]} \PYG{o}{+} \PYG{l+m+mi}{1}\PYG{p}{)} \PYG{o}{+} \PYG{n+nb}{chr}\PYG{p}{(}\PYG{n+nb}{ord}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}a\PYGZsq{}}\PYG{p}{)} \PYG{o}{+} \PYG{n}{pairs}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{][}\PYG{l+m+mi}{1}\PYG{p}{])} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}
+        \PYG{n}{result} \PYG{o}{=} \PYG{n}{result}\PYG{p}{[:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}]\PYGZsq{}}
+    \PYG{k}{return} \PYG{n}{result}
+
+\PYG{k}{def} \PYG{n+nf}{mgu\PYGZus{}to\PYGZus{}str}\PYG{p}{(}\PYG{n}{mgu}\PYG{p}{:} \PYG{n}{Mapping}\PYG{p}{):}
+    \PYG{n}{res} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+    \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{mgu}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{n}{res} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}\PYGZob{}\PYGZsq{}}
+        \PYG{k}{for} \PYG{n}{k}\PYG{p}{,} \PYG{n}{v} \PYG{o+ow}{in} \PYG{n}{mgu}\PYG{o}{.}\PYG{n}{items}\PYG{p}{():}
+            \PYG{n}{res} \PYG{o}{+=} \PYG{n}{k} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}:=\PYGZsq{}} \PYG{o}{+} \PYG{n}{v} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}, \PYGZsq{}}
+        \PYG{n}{res} \PYG{o}{=} \PYG{n}{res}\PYG{p}{[:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{2}\PYG{p}{]} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}\PYGZcb{}\PYGZsq{}}
+    \PYG{k}{return} \PYG{n}{res}
+
+\PYG{k}{class} \PYG{n+nc}{ClauseSet}\PYG{p}{:}
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}init\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{clauses}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Clause}\PYG{p}{]):}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses} \PYG{o}{=} \PYG{n}{clauses}
+
+        \PYG{k}{for} \PYG{n}{clause} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime}\PYG{p}{[}\PYG{n}{clause}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{False}
+
+        \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime}\PYG{p}{[}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{[}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]]} \PYG{o}{=} \PYG{k+kc}{True}
+
+    \PYG{k}{def} \PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{result} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}\PYGZsq{}}
+        \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{1}
+        \PYG{k}{for} \PYG{n}{clause} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{:}
+            \PYG{n}{result} \PYG{o}{+=} \PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{i}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}.\PYGZsq{}}
+            \PYG{n}{result} \PYG{o}{+=} \PYG{n}{clause}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{()}
+            \PYG{n}{result} \PYG{o}{+=} \PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}
+            \PYG{n}{i} \PYG{o}{+=} \PYG{l+m+mi}{1}
+        \PYG{k}{return} \PYG{n}{result}\PYG{p}{[:}\PYG{o}{\PYGZhy{}}\PYG{l+m+mi}{1}\PYG{p}{]}
+
+    \PYG{k}{def} \PYG{n+nf}{extend}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{li}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Clause}\PYG{p}{]):}
+        \PYG{k}{for} \PYG{n}{clause} \PYG{o+ow}{in} \PYG{n}{li}\PYG{p}{:}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{clause}\PYG{p}{)}
+
+    \PYG{k}{def} \PYG{n+nf}{get\PYGZus{}places}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{,} \PYG{n}{this}\PYG{p}{:} \PYG{n}{Clause}\PYG{p}{,} \PYG{n}{that}\PYG{p}{:} \PYG{n}{Clause}\PYG{p}{,} \PYG{n}{unify\PYGZus{}literals}\PYG{p}{:} \PYG{n}{List}\PYG{p}{[}\PYG{n}{Tuple}\PYG{p}{[}\PYG{n}{Literal}\PYG{p}{,} \PYG{n}{Literal}\PYG{p}{]]):}
+        \PYG{n}{places} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{for} \PYG{n}{literal\PYGZus{}pair} \PYG{o+ow}{in} \PYG{n}{unify\PYGZus{}literals}\PYG{p}{:}
+            \PYG{n}{places}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(((}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{o}{.}\PYG{n}{index}\PYG{p}{(}\PYG{n}{this}\PYG{p}{),} \PYG{n}{this}\PYG{o}{.}\PYG{n}{literals}\PYG{o}{.}\PYG{n}{index}\PYG{p}{(}\PYG{n}{literal\PYGZus{}pair}\PYG{p}{[}\PYG{l+m+mi}{0}\PYG{p}{])),}
+                           \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{o}{.}\PYG{n}{index}\PYG{p}{(}\PYG{n}{that}\PYG{p}{),} \PYG{n}{that}\PYG{o}{.}\PYG{n}{literals}\PYG{o}{.}\PYG{n}{index}\PYG{p}{(}\PYG{n}{literal\PYGZus{}pair}\PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{]))))}
+        \PYG{k}{return} \PYG{n}{places}
+
+    \PYG{k}{def} \PYG{n+nf}{reasoning}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{p}{):}
+        \PYG{n}{count} \PYG{o}{=} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{)} \PYG{o}{+} \PYG{l+m+mi}{1}
+        \PYG{n}{resolved} \PYG{o}{=} \PYG{p}{[]}
+        \PYG{k}{while} \PYG{k+kc}{True}\PYG{p}{:}
+            \PYG{n}{buffer} \PYG{o}{=} \PYG{p}{[]}  \PYG{c+c1}{\PYGZsh{} to store the new clauses because the resolutions are regard as synchronous.}
+            \PYG{k}{for} \PYG{n}{this\PYGZus{}clause} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{:}
+                \PYG{k}{for} \PYG{n}{that\PYGZus{}clause} \PYG{o+ow}{in} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{clauses}\PYG{p}{:}
+                    \PYG{c+c1}{\PYGZsh{} traversal the cartesian product of the clauses}
+                    \PYG{n}{unify\PYGZus{}literal\PYGZus{}pairs} \PYG{o}{=} \PYG{n}{this\PYGZus{}clause}\PYG{o}{.}\PYG{n}{is\PYGZus{}resolvable\PYGZus{}at}\PYG{p}{(}\PYG{n}{that\PYGZus{}clause}\PYG{p}{)}
+                    \PYG{k}{if} \PYG{n}{this\PYGZus{}clause} \PYG{o}{!=} \PYG{n}{that\PYGZus{}clause} \PYG{o+ow}{and} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{unify\PYGZus{}literal\PYGZus{}pairs}\PYG{p}{)} \PYG{o}{!=} \PYG{l+m+mi}{0} \PYG{o+ow}{and} \PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime}\PYG{p}{[}\PYG{n}{this\PYGZus{}clause}\PYG{p}{]} \PYG{o+ow}{or} \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime}\PYG{p}{[}\PYG{n}{that\PYGZus{}clause}\PYG{p}{])} \PYG{o+ow}{and} \PYG{n}{resolved}\PYG{o}{.}\PYG{n}{count}\PYG{p}{((}\PYG{n}{this\PYGZus{}clause}\PYG{p}{,} \PYG{n}{that\PYGZus{}clause}\PYG{p}{))} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                        \PYG{c+c1}{\PYGZsh{} The 1st is a new clause, the 2nd is MGU used to make that clause}
+                        \PYG{n}{son\PYGZus{}clause}\PYG{p}{,} \PYG{n}{mgu} \PYG{o}{=} \PYG{n}{this\PYGZus{}clause}\PYG{o}{.}\PYG{n}{resolve}\PYG{p}{(}\PYG{n}{that\PYGZus{}clause}\PYG{p}{,} \PYG{n}{unify\PYGZus{}literal\PYGZus{}pairs}\PYG{p}{)}
+                        \PYG{n}{places} \PYG{o}{=} \PYG{n}{place\PYGZus{}to\PYGZus{}str}\PYG{p}{(}\PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{get\PYGZus{}places}\PYG{p}{(}\PYG{n}{this\PYGZus{}clause}\PYG{p}{,} \PYG{n}{that\PYGZus{}clause}\PYG{p}{,} \PYG{n}{unify\PYGZus{}literal\PYGZus{}pairs}\PYG{p}{))}
+                        \PYG{n}{buffer}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{n}{son\PYGZus{}clause}\PYG{p}{)}
+                        \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{str}\PYG{p}{(}\PYG{n}{count}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{}. R\PYGZsq{}} \PYG{o}{+} \PYG{n}{places} \PYG{o}{+} \PYG{n}{mgu\PYGZus{}to\PYGZus{}str}\PYG{p}{(}\PYG{n}{mgu}\PYG{p}{)} \PYG{o}{+} \PYG{l+s+s1}{\PYGZsq{} = \PYGZsq{}} \PYG{o}{+} \PYG{n}{son\PYGZus{}clause}\PYG{o}{.}\PYG{n+nf+fm}{\PYGZus{}\PYGZus{}str\PYGZus{}\PYGZus{}}\PYG{p}{())}
+                        \PYG{n}{count} \PYG{o}{+=} \PYG{l+m+mi}{1}
+                        \PYG{n}{resolved}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{this\PYGZus{}clause}\PYG{p}{,} \PYG{n}{that\PYGZus{}clause}\PYG{p}{))}
+                        \PYG{n}{resolved}\PYG{o}{.}\PYG{n}{append}\PYG{p}{((}\PYG{n}{that\PYGZus{}clause}\PYG{p}{,} \PYG{n}{this\PYGZus{}clause}\PYG{p}{))}
+                        \PYG{k}{if} \PYG{n+nb}{len}\PYG{p}{(}\PYG{n}{son\PYGZus{}clause}\PYG{o}{.}\PYG{n}{literals}\PYG{p}{)} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+                            \PYG{k}{return}
+            \PYG{c+c1}{\PYGZsh{}}
+            \PYG{k}{for} \PYG{n}{clause} \PYG{o+ow}{in} \PYG{n}{buffer}\PYG{p}{:}
+                \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{is\PYGZus{}prime}\PYG{p}{[}\PYG{n}{clause}\PYG{p}{]} \PYG{o}{=} \PYG{k+kc}{True}
+            \PYG{n+nb+bp}{self}\PYG{o}{.}\PYG{n}{extend}\PYG{p}{(}\PYG{n}{buffer}\PYG{p}{)}
+\end{Verbatim}

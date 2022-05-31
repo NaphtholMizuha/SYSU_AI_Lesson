@@ -1,0 +1,16 @@
+arad to bucharest
+path: ['arad', 'timisoara', 'lugoj', 'mehadia', 'dobreta', 'craiova', 'pitesti', 'bucharest']
+length: 733
+
+fagaras to dobreta
+path: ['fagaras', 'sibiu', 'rimnicuvilcea', 'pitesti', 'craiova', 'dobreta']
+length: 534
+
+mehadia to sibiu
+path: ['mehadia', 'dobreta', 'craiova', 'pitesti', 'rimnicuvilcea', 'sibiu']
+length: 510
+
+giurgiu to pitesti
+path: ['giurgiu', 'bucharest', 'pitesti']
+length: 191
+

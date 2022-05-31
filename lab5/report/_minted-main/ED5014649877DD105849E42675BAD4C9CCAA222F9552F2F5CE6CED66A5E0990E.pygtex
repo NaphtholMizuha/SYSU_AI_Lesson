@@ -1,0 +1,31 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n}{history\PYGZus{}map} \PYG{o}{=} \PYG{p}{\PYGZob{}\PYGZcb{}}
+\PYG{c+c1}{\PYGZsh{} 此处初始化history}
+\PYG{k}{def} \PYG{n+nf}{history\PYGZus{}get}\PYG{p}{(}\PYG{n}{x}\PYG{p}{):}
+    \PYG{k}{if} \PYG{o+ow}{not} \PYG{n}{history\PYGZus{}map}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]:}
+        \PYG{n}{history\PYGZus{}map}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{=} \PYG{l+m+mi}{0}
+    \PYG{k}{return} \PYG{n}{history\PYGZus{}map}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]}
+
+\PYG{k}{def} \PYG{n+nf}{history\PYGZus{}renew}\PYG{p}{(}\PYG{n}{x}\PYG{p}{,} \PYG{n}{depth}\PYG{p}{):}
+    \PYG{n}{history\PYGZus{}map}\PYG{p}{[}\PYG{n}{x}\PYG{p}{]} \PYG{o}{+=} \PYG{l+m+mi}{2} \PYG{o}{\PYGZlt{}\PYGZlt{}} \PYG{n}{depth}
+
+\PYG{k}{def} \PYG{n+nf}{alpha\PYGZus{}beta}\PYG{p}{(}\PYG{n}{state}\PYG{p}{,} \PYG{n}{alpha}\PYG{p}{,} \PYG{n}{beta}\PYG{p}{,} \PYG{n}{depth}\PYG{p}{):}
+    \PYG{k}{if} \PYG{n}{depth} \PYG{o}{==} \PYG{l+m+mi}{0}\PYG{p}{:}
+        \PYG{k}{return} \PYG{n}{evaluate}\PYG{p}{(}\PYG{n}{state}\PYG{p}{)}
+    \PYG{n}{camp} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}r\PYGZsq{}} \PYG{k}{if} \PYG{n}{depth} \PYG{o}{\PYGZpc{}} \PYG{l+m+mi}{2} \PYG{o}{==} \PYG{l+m+mi}{0} \PYG{k}{else} \PYG{l+s+s1}{\PYGZsq{}b\PYGZsq{}} \PYG{c+c1}{\PYGZsh{} 深度决定行动方}
+    \PYG{n}{steps} \PYG{o}{=} \PYG{n}{generate\PYGZus{}possbile\PYGZus{}steps}\PYG{p}{(}\PYG{n}{state}\PYG{p}{,} \PYG{n}{camp}\PYG{p}{)}
+    \PYG{n}{steps}\PYG{o}{.}\PYG{n}{sort}\PYG{p}{(}\PYG{n}{key}\PYG{o}{=}\PYG{n}{history\PYGZus{}get}\PYG{p}{)}
+    \PYG{n}{next\PYGZus{}states} \PYG{o}{=} \PYG{p}{[}\PYG{n}{make\PYGZus{}nxt\PYGZus{}state}\PYG{p}{(}\PYG{n}{state}\PYG{p}{,} \PYG{n}{src}\PYG{p}{,} \PYG{n}{dst}\PYG{p}{)} \PYG{k}{for} \PYG{n}{src}\PYG{p}{,} \PYG{n}{dst} \PYG{o+ow}{in} \PYG{n}{steps}\PYG{p}{]}
+    \PYG{n}{target} \PYG{o}{=} \PYG{k+kc}{None}
+    \PYG{k}{for} \PYG{n}{i}\PYG{p}{,} \PYG{n}{next\PYGZus{}state} \PYG{o+ow}{in} \PYG{n+nb}{enumerate}\PYG{p}{(}\PYG{n}{next\PYGZus{}states}\PYG{p}{):}
+        \PYG{n}{temp} \PYG{o}{=} \PYG{n}{alpha\PYGZus{}beta}\PYG{p}{(}\PYG{n}{next\PYGZus{}state}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{n}{beta}\PYG{p}{,} \PYG{o}{\PYGZhy{}}\PYG{n}{alpha}\PYG{p}{,} \PYG{n}{depth} \PYG{o}{\PYGZhy{}} \PYG{l+m+mi}{1}\PYG{p}{)}
+        \PYG{k}{if} \PYG{n}{temp} \PYG{o}{\PYGZgt{}} \PYG{n}{alpha}\PYG{p}{:}
+            \PYG{n}{alpha} \PYG{o}{=} \PYG{n}{temp}
+            \PYG{n}{target} \PYG{o}{=} \PYG{n}{steps}\PYG{p}{[}\PYG{n}{i}\PYG{p}{]}
+        \PYG{k}{if} \PYG{n}{alpha} \PYG{o}{\PYGZgt{}=} \PYG{n}{beta}\PYG{p}{:}
+            \PYG{k}{break}
+
+    \PYG{k}{if} \PYG{n}{target} \PYG{o+ow}{is} \PYG{o+ow}{not} \PYG{k+kc}{None}\PYG{p}{:}
+        \PYG{n}{history\PYGZus{}renew}\PYG{p}{(}\PYG{n}{target}\PYG{p}{,} \PYG{n}{depth}\PYG{p}{)}
+    \PYG{k}{return} \PYG{n}{alpha}
+\end{Verbatim}

@@ -1,0 +1,44 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{k}{if} \PYG{n+nv+vm}{\PYGZus{}\PYGZus{}name\PYGZus{}\PYGZus{}} \PYG{o}{==} \PYG{l+s+s1}{\PYGZsq{}\PYGZus{}\PYGZus{}main\PYGZus{}\PYGZus{}\PYGZsq{}}\PYG{p}{:}
+    \PYG{n}{i} \PYG{o}{=} \PYG{l+m+mi}{114514}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{i}\PYG{p}{))}
+    \PYG{n}{i} \PYG{o}{+=} \PYG{l+m+mi}{1}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{i}\PYG{p}{))}
+
+    \PYG{n}{f} \PYG{o}{=} \PYG{l+m+mf}{3.14}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{f}\PYG{p}{))}
+    \PYG{n}{f} \PYG{o}{*=} \PYG{l+m+mf}{2.23}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{f}\PYG{p}{))}
+
+    \PYG{n}{b} \PYG{o}{=} \PYG{k+kc}{True}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))}
+    \PYG{n}{b} \PYG{o}{=} \PYG{o+ow}{not} \PYG{n}{b}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{b}\PYG{p}{))}
+
+    \PYG{n}{s} \PYG{o}{=} \PYG{l+s+s1}{\PYGZsq{}hello\PYGZsq{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{s}\PYG{p}{))}
+    \PYG{n}{s} \PYG{o}{=} \PYG{n}{s}\PYG{o}{.}\PYG{n}{replace}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}he\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}Fe\PYGZsq{}}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{s}\PYG{p}{))}
+
+    \PYG{n}{t} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}what\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mf}{2.13}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{t}\PYG{p}{))}
+    \PYG{n}{t} \PYG{o}{=} \PYG{p}{(}\PYG{l+m+mi}{2}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}which\PYGZsq{}}\PYG{p}{,} \PYG{l+m+mf}{0.01}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{t}\PYG{p}{))}
+
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}}\PYG{l+s+se}{\PYGZbs{}n}\PYG{l+s+s1}{\PYGZsq{}}\PYG{p}{)}
+
+    \PYG{n}{li} \PYG{o}{=} \PYG{p}{[}\PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{,} \PYG{l+m+mi}{5}\PYG{p}{,} \PYG{l+m+mi}{1}\PYG{p}{,} \PYG{l+m+mi}{4}\PYG{p}{]}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{li}\PYG{p}{))}
+    \PYG{n}{li}\PYG{o}{.}\PYG{n}{append}\PYG{p}{(}\PYG{l+m+mi}{7}\PYG{p}{)}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{li}\PYG{p}{))}
+
+    \PYG{n}{d} \PYG{o}{=} \PYG{n+nb}{dict}\PYG{p}{([(}\PYG{l+s+s1}{\PYGZsq{}self\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}fish\PYGZsq{}}\PYG{p}{),} \PYG{p}{(}\PYG{l+s+s1}{\PYGZsq{}that\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}meat\PYGZsq{}}\PYG{p}{)])}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{d}\PYG{p}{))}
+    \PYG{n}{d}\PYG{o}{.}\PYG{n}{clear}\PYG{p}{()}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{d}\PYG{p}{))}
+
+    \PYG{n}{s} \PYG{o}{=} \PYG{p}{\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}group\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}ring\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}field\PYGZsq{}}\PYG{p}{\PYGZcb{}}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{s}\PYG{p}{))}
+    \PYG{n}{s}\PYG{o}{.}\PYG{n}{union}\PYG{p}{(\PYGZob{}}\PYG{l+s+s1}{\PYGZsq{}plus\PYGZsq{}}\PYG{p}{,} \PYG{l+s+s1}{\PYGZsq{}ring\PYGZsq{}}\PYG{p}{\PYGZcb{})}
+    \PYG{n+nb}{print}\PYG{p}{(}\PYG{n+nb}{id}\PYG{p}{(}\PYG{n}{s}\PYG{p}{))}
+\end{Verbatim}

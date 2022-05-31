@@ -1,0 +1,18 @@
+\begin{algorithm*}
+    \SetKwInOut{Input}{输入}
+    \SetKwInOut{Output}{输出}
+    \caption{单步归结算法\code{resolve()}}
+    \Input{两个子句\(s,t\)}
+    \Output{归结得出的新子句\(u\)}
+    \(u := \{\}\) \\
+    \(\sigma := \{\}\) \\
+    \For{文字\(a \in s, b \in t\)}{
+        \If{\(a\)与\(b\)的谓词相同,且``\(\neg\)''不同}{
+            \(\sigma := \sigma \cup \texttt{find\_mgu}(a,b)\) 
+        }
+    }
+    \For{文字\(w \in s \cup t\)}{
+        \(u := u \cup w \sigma \)
+    }
+    \Return{\(u\)}
+\end{algorithm*}

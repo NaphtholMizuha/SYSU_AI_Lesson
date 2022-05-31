@@ -1,0 +1,27 @@
+\begin{thebibliography}{2}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{#1}
+\expandafter\ifx\csname urlstyle\endcsname\relax\else
+  \urlstyle{same}\fi
+\expandafter\ifx\csname href\endcsname\relax
+  \DeclareUrlCommand\doi{\urlstyle{rm}}
+  \def\eprint#1#2{#2}
+\else
+  \def\doi#1{\href{https://doi.org/#1}{\nolinkurl{#1}}}
+  \let\eprint\href
+\fi
+
+\bibitem[徐心和\ 等(2006)徐心和 and
+  王骄]{徐心和2006中国象棋计算机博弈关键技术分析}
+徐心和, 王骄.
+\newblock 中国象棋计算机博弈关键技术分析\allowbreak[J].
+\newblock 小型微型计算机系统, 2006, 27\allowbreak (6): 961-969.
+
+\bibitem[Schaeffer(1989)]{schaeffer1989history}
+SCHAEFFER J.
+\newblock The history heuristic and alpha-beta search enhancements in
+  practice\allowbreak[J].
+\newblock IEEE transactions on pattern analysis and machine intelligence, 1989,
+  11\allowbreak (11): 1203-1212.
+
+\end{thebibliography}
