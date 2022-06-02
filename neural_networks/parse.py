@@ -1,5 +1,4 @@
 import numpy as np
-import os
 def trans(src: np.ndarray):
     result = np.zeros((10, src.size))
     for i in range(10):
@@ -31,35 +30,3 @@ def fetch_data(path):
             return trans(np.array(labels))
         case _:
             return 0
-
-def fit_origin_data():
-    parsed = [
-        'data/train_img',
-        'data/train_label',
-        'data/test_img',
-        'data/test_label',
-    ]
-
-    origin = [
-        'origin/train-images-idx3-ubyte',
-        'origin/train-labels-idx1-ubyte',
-        'origin/t10k-images-idx3-ubyte',
-        'origin/t10k-labels-idx1-ubyte'
-    ]
-
-    for o, p in zip(origin, parsed):
-        np.save(p, fetch_data(o))
-
-def fetch_parsed_data():
-    if not (os.path.exists('data/train_img.npy') and
-            os.path.exists('data/train_label.npy') and
-            os.path.exists('data/test_img.npy') and
-            os.path.exists('data/test_label.npy')):
-        fit_origin_data()
-
-    return [
-        np.load('data/train_img.npy'),
-        np.load('data/train_label.npy'),
-        np.load('data/test_img.npy'),
-        np.load('data/test_label.npy')
-    ]

@@ -1,9 +1,17 @@
 import numpy as np
-from parse import fetch_parsed_data
+from parse import fetch_data
 from neural_network import ClassificationNeuralNetwork
 
 if __name__ == '__main__':
-    train_img, train_label, test_img, test_label = fetch_parsed_data()
+    paths = [
+        'train-images-idx3-ubyte',
+        'train-labels-idx1-ubyte',
+        't10k-images-idx3-ubyte',
+        't10k-labels-idx1-ubyte',
+    ]
+    paths = ['origin/' + x for x in paths]
+    print(paths)
+    train_img, train_label, test_img, test_label = [fetch_data(x) for x in paths]
     train_img = train_img / 255
     nn = ClassificationNeuralNetwork(
         input_dim=28 * 28,
@@ -23,10 +31,6 @@ if __name__ == '__main__':
     real = np.argmax(test_label, axis=1, keepdims=True)
     matches = np.equal(predict, real)
     print(f'Accuracy: {np.sum(matches) / np.size(matches)}')
-
-    hand = np.load('data/hand_written.npy')
-    predict = nn.predict(hand)
-    print(np.argmax(predict, axis=1, keepdims=True))
 
 
 
